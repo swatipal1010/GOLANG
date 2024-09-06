@@ -40,45 +40,44 @@ func main() {
 	fmt.Println("Enter the number of tickets you want to buy: ")
 	fmt.Scan(&userTicket)
 
-	if userTicket>remainingTickets{
-		fmt.Printf("We only have %v tickets remaining. So you can't book %v tickets.\n",remainingTickets,userTicket)
-		continue
-	}
+	if userTicket<=remainingTickets{
+		remainingTickets = remainingTickets-userTicket
 
-	remainingTickets = remainingTickets-userTicket
-
-/*  bookings[0] = firstName+" "+lastName
+	/*  bookings[0] = firstName+" "+lastName
 	fmt.Printf("Whole array is:%v\n",bookings)
 	fmt.Printf("First element of the array is : %v\n",bookings[0])
 	fmt.Printf("Type of array is %T:\n",bookings)
 	fmt.Printf("Length of the array is: %v\n",len(bookings))  
-*/
+	*/
 
-	//Adding elements in slice rather than in array
-	bookings = append(bookings, firstName+" "+lastName)
+		//Adding elements in slice rather than in array
+		bookings = append(bookings, firstName+" "+lastName)
 
-/*	fmt.Printf("Whole slice is:%v\n",bookings)
+	/*	fmt.Printf("Whole slice is:%v\n",bookings)
 	fmt.Printf("First element of the slice is : %v\n",bookings[0])
 	fmt.Printf("Type of slice is: %T\n",bookings)
 	fmt.Printf("Length of the slice is: %v\n",len(bookings))    
-*/
+	*/
 
-	fmt.Printf("Thank You %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName,lastName, userTicket,email)
-	fmt.Printf("%v tickets remaining for %v\n",remainingTickets,conferenceName)
+		fmt.Printf("Thank You %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName,lastName, userTicket,email)
+		fmt.Printf("%v tickets remaining for %v\n",remainingTickets,conferenceName)
 
-	firstNames := []string{}							//slice to store only firstname of the customers
-	for _, booking := range bookings{			//We get 'index'(_) and 'value'(booking) while iterating through bookings slice using 'range' iterator
-		var names = strings.Fields(booking)		//'names' is an array that contains 2 values(firstname & lastname) divided on whitespace seperator 
+		firstNames := []string{}							//slice to store only firstname of the customers
+		for _, booking := range bookings{			//We get 'index'(_) and 'value'(booking) while iterating through bookings slice using 'range' iterator
+			var names = strings.Fields(booking)	//'names' is an array that contains 2 values(firstname & lastname) divided on whitespace seperator 
 												//using Fields method
-		firstNames = append(firstNames, names[0])
-	}
-	fmt.Printf("The first name of all bookings are: %v\n",firstNames)
+			firstNames = append(firstNames, names[0])
+		}
+		fmt.Printf("The first name of all bookings are: %v\n",firstNames)
 
-	var noTicketRemaining bool = remainingTickets==0
-	if noTicketRemaining {
-		fmt.Println("Our conference is booked out. Come back next year.")
-		break
-	}
+		var noTicketRemaining bool = remainingTickets==0
+		if noTicketRemaining {
+			fmt.Println("Our conference is booked out. Come back next year.")
+			break
+		}
+	}else{
+		fmt.Printf("We only have %v tickets remaining. So you can't book %v tickets.\n",remainingTickets,userTicket)
+	}	
 	
 	}
 }
