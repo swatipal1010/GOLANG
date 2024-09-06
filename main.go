@@ -5,20 +5,34 @@ import "fmt"
 func main() {
 	//Introducing variable
 	var conferenceName string = "Go Conference"
-	const tickets = 50
-	remainingTickets := 40
-	fmt.Println("Welcome to our",conferenceName,"booking application") //fmt is the package that contains Println method(Uppercase P in Println method indicates that it's a public method)
-	fmt.Printf("We have %v tickets in total and %v tickets are still available!\n",tickets, remainingTickets)
+	const conferenceTickets int = 50
+	var remainingTickets uint = 40
+
+	fmt.Printf("conferenceTicket is %T, remainingTickets is %T\n", conferenceTickets, remainingTickets)
+	fmt.Println("Welcome to our", conferenceName, "booking application") //fmt is the package that contains Println method(Uppercase P in Println method indicates that it's a public method)
+	fmt.Printf("We have %v tickets in total and %v tickets are still available!\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your ticket to attend.")
 
+	var firstName string //When we don't assign a value to a variable immediately, we need to mention its datatype
+	var lastName string
+	var userTicket uint //uint allows for assigning postive integers only
+	var email string
 
-	var username string			//When we don't assign a value to a variable immediately, we need to mention its datatype
-	var userTicket uint			//uint allows for assigning postive integers only
-	//ask for username
-	username = "John"
-	userTicket = 10
-	fmt.Println(username)
-	fmt.Println(userTicket)
-																
+
 	
+	fmt.Println("Enter your first name: ")
+	fmt.Scan(&firstName)
+
+	fmt.Println("Enter your last name: ")
+	fmt.Scan(&lastName)
+	
+	fmt.Println("Enter your email address: ")
+	fmt.Scan(&email)
+
+	fmt.Println("Enter the number of tickets you want to buy: ")
+	fmt.Scan(&userTicket)
+
+	userTicket = 10
+	fmt.Printf("Thank You %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName,lastName, userTicket,email)
+
 }
