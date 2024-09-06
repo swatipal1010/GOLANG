@@ -14,64 +14,32 @@ func main() {
 	var bookings[]string										//This is a slice. It doesn't have a fixed size rather it grows as per neeed
 																//Equ. to writing 'var bookings = []string{}' or 'bookings := []string{}'
 
+	greetUsers(conferenceName, conferenceTickets, remainingTickets)
 
+/*	
 	fmt.Printf("conferenceTicket is %T, remainingTickets is %T\n", conferenceTickets, remainingTickets)
 	fmt.Println("Welcome to our", conferenceName, "booking application") //fmt is the package that contains Println method(Uppercase P in Println method indicates that it's a public method)
 	fmt.Printf("We have %v tickets in total and %v tickets are still available!\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your ticket to attend.")
+*/
 
-	for {					//Can mention condition after for loop 'for remainingTickets>0 && len(bookings)<=50'
-	var firstName string //When we don't assign a value to a variable immediately, we need to mention its datatype
-	var lastName string
-	var userTicket uint //uint allows for assigning postive integers only
-	var email string
+
+
+	for {													//Can mention condition after for loop 'for remainingTickets>0 && len(bookings)<=50'
+	//Get user input
+	firstName, lastName,email, userTicket := getUserInput()
+
+	//Constraints (Multiple values returned by the function validUserInput)
+	isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTicket, remainingTickets)
 	
-	fmt.Println("Enter your first name: ")
-	fmt.Scan(&firstName)
-
-	fmt.Println("Enter your last name: ")
-	fmt.Scan(&lastName)
-	
-	fmt.Println("Enter your email address: ")
-	fmt.Scan(&email)
-
-	fmt.Println("Enter the number of tickets you want to buy: ")
-	fmt.Scan(&userTicket)
-
-
-	//Constraints
-	isValidName := len(firstName)>=2 && len(lastName)>=2
-	isValidEmail := strings.Contains(email,"@")
-	isValidTicketNumber := userTicket>0 && userTicket<=remainingTickets
 
 	if isValidName && isValidEmail && isValidTicketNumber{
-		remainingTickets = remainingTickets-userTicket
+		//Book user ticket
+		bookTicket(firstName, lastName, email, remainingTickets, userTicket, conferenceName, bookings)
 
-	/*  bookings[0] = firstName+" "+lastName
-	fmt.Printf("Whole array is:%v\n",bookings)
-	fmt.Printf("First element of the array is : %v\n",bookings[0])
-	fmt.Printf("Type of array is %T:\n",bookings)
-	fmt.Printf("Length of the array is: %v\n",len(bookings))  
-	*/
 
-		//Adding elements in slice rather than in array
-		bookings = append(bookings, firstName+" "+lastName)
-
-	/*	fmt.Printf("Whole slice is:%v\n",bookings)
-	fmt.Printf("First element of the slice is : %v\n",bookings[0])
-	fmt.Printf("Type of slice is: %T\n",bookings)
-	fmt.Printf("Length of the slice is: %v\n",len(bookings))    
-	*/
-
-		fmt.Printf("Thank You %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName,lastName, userTicket,email)
-		fmt.Printf("%v tickets remaining for %v\n",remainingTickets,conferenceName)
-
-		firstNames := []string{}							//slice to store only firstname of the customers
-		for _, booking := range bookings{			//We get 'index'(_) and 'value'(booking) while iterating through bookings slice using 'range' iterator
-			var names = strings.Fields(booking)	//'names' is an array that contains 2 values(firstname & lastname) divided on whitespace seperator 
-												//using Fields method
-			firstNames = append(firstNames, names[0])
-		}
+		//Use the function 'printFirtNames' to print firts names of all bookings
+		firstNames := getFirstNames(bookings)
 		fmt.Printf("The first name of all bookings are: %v\n",firstNames)
 
 		var noTicketRemaining bool = remainingTickets==0
@@ -93,4 +61,82 @@ func main() {
 	}	
 	
 	}
+}
+
+
+//function to greet customers
+func greetUsers(confName string, confTickets int, remTickets uint){
+	fmt.Printf("Welcome to %v booking application\n",confName)
+	fmt.Printf("We have %v tickets in total and %v tickets are still available!\n", confTickets, remTickets)
+	fmt.Println("Get your ticket to attend.")
+}
+
+
+//Function to return firstname(slice of string values) of all the bookings
+func getFirstNames(bookings []string) []string{
+		firstNames := []string{}							//slice to store only firstname of the customers
+		for _, booking := range bookings{	//We get 'index'(_) and 'value'(booking) while iterating through bookings slice using 'range' iterator
+			var names = strings.Fields(booking)	//'names' is an array that contains 2 values(firstname & lastname) divided on whitespace seperator 
+												//using Fields method
+			firstNames = append(firstNames, names[0])
+		}
+		//fmt.Printf("The first name of all bookings are: %v\n",firstNames)
+		return firstNames
+}
+
+
+//Function to validate user input. In the below line (bool,bool,bool) is the return type
+func validateUserInput(firstName string, lastName string, email string, userTicket uint, remainingTickets uint) (bool, bool, bool){ 
+	isValidName := len(firstName)>=2 && len(lastName)>=2
+	isValidEmail := strings.Contains(email,"@")
+	isValidTicketNumber := userTicket>0 && userTicket<=remainingTickets
+	return isValidName, isValidEmail, isValidTicketNumber					//Mutiple return values are possible in GOLANG
+}
+
+
+//Function to get user input
+func getUserInput() (string, string, string, uint){
+	var firstName string //When we don't assign a value to a variable immediately, we need to mention its datatype
+	var lastName string
+	var userTicket uint //uint allows for assigning postive integers only
+	var email string
+	
+	fmt.Println("Enter your first name: ")
+	fmt.Scan(&firstName)
+
+	fmt.Println("Enter your last name: ")
+	fmt.Scan(&lastName)
+	
+	fmt.Println("Enter your email address: ")
+	fmt.Scan(&email)
+
+	fmt.Println("Enter the number of tickets you want to buy: ")
+	fmt.Scan(&userTicket)
+
+	return firstName, lastName, email, userTicket
+}
+
+//Function to book ticket
+func bookTicket(firstName string, lastName string, email string, remainingTickets uint, userTicket uint, conferenceName string, bookings []string){
+	remainingTickets = remainingTickets-userTicket
+
+	/*  bookings[0] = firstName+" "+lastName
+	fmt.Printf("Whole array is:%v\n",bookings)
+	fmt.Printf("First element of the array is : %v\n",bookings[0])
+	fmt.Printf("Type of array is %T:\n",bookings)
+	fmt.Printf("Length of the array is: %v\n",len(bookings))  
+	*/
+
+		//Adding elements in slice rather than in array
+		bookings = append(bookings, firstName+" "+lastName)
+
+	/*	fmt.Printf("Whole slice is:%v\n",bookings)
+	fmt.Printf("First element of the slice is : %v\n",bookings[0])
+	fmt.Printf("Type of slice is: %T\n",bookings)
+	fmt.Printf("Length of the slice is: %v\n",len(bookings))    
+	*/
+
+		fmt.Printf("Thank You %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName,lastName, userTicket,email)
+		fmt.Printf("%v tickets remaining for %v\n",remainingTickets,conferenceName)
+
 }
