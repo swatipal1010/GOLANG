@@ -5,16 +5,18 @@ import (
 	"strings"
 )
 
-func main() {
-	//Introducing variable
-	var conferenceName string = "Go Conference"
-	const conferenceTickets int = 50
-	var remainingTickets uint = 50	
-	//var bookings [50]string									//Equivalent var bookings = [50]string{}
-	var bookings[]string										//This is a slice. It doesn't have a fixed size rather it grows as per neeed
-																//Equ. to writing 'var bookings = []string{}' or 'bookings := []string{}'
 
-	greetUsers(conferenceName, conferenceTickets, remainingTickets)
+//Introducing package-level variables
+var conferenceName string = "Go Conference"
+const conferenceTickets int = 50
+var remainingTickets uint = 50	
+//var bookings [50]string									//Equivalent var bookings = [50]string{}
+var bookings[]string										//This is a slice. It doesn't have a fixed size rather it grows as per neeed
+															//Equ. to writing 'var bookings = []string{}' or 'bookings := []string{}'
+
+
+func main() {
+	greetUsers()
 
 /*	
 	fmt.Printf("conferenceTicket is %T, remainingTickets is %T\n", conferenceTickets, remainingTickets)
@@ -30,16 +32,16 @@ func main() {
 	firstName, lastName,email, userTicket := getUserInput()
 
 	//Constraints (Multiple values returned by the function validUserInput)
-	isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTicket, remainingTickets)
+	isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTicket)
 	
 
 	if isValidName && isValidEmail && isValidTicketNumber{
 		//Book user ticket
-		bookTicket(firstName, lastName, email, remainingTickets, userTicket, conferenceName, bookings)
+		bookTicket(firstName, lastName, email, userTicket)
 
 
 		//Use the function 'printFirtNames' to print firts names of all bookings
-		firstNames := getFirstNames(bookings)
+		firstNames := getFirstNames()
 		fmt.Printf("The first name of all bookings are: %v\n",firstNames)
 
 		var noTicketRemaining bool = remainingTickets==0
@@ -65,15 +67,15 @@ func main() {
 
 
 //function to greet customers
-func greetUsers(confName string, confTickets int, remTickets uint){
-	fmt.Printf("Welcome to %v booking application\n",confName)
-	fmt.Printf("We have %v tickets in total and %v tickets are still available!\n", confTickets, remTickets)
+func greetUsers(){
+	fmt.Printf("Welcome to %v booking application\n",conferenceName)
+	fmt.Printf("We have %v tickets in total and %v tickets are still available!\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your ticket to attend.")
 }
 
 
 //Function to return firstname(slice of string values) of all the bookings
-func getFirstNames(bookings []string) []string{
+func getFirstNames() []string{
 		firstNames := []string{}							//slice to store only firstname of the customers
 		for _, booking := range bookings{	//We get 'index'(_) and 'value'(booking) while iterating through bookings slice using 'range' iterator
 			var names = strings.Fields(booking)	//'names' is an array that contains 2 values(firstname & lastname) divided on whitespace seperator 
@@ -86,7 +88,7 @@ func getFirstNames(bookings []string) []string{
 
 
 //Function to validate user input. In the below line (bool,bool,bool) is the return type
-func validateUserInput(firstName string, lastName string, email string, userTicket uint, remainingTickets uint) (bool, bool, bool){ 
+func validateUserInput(firstName string, lastName string, email string, userTicket uint) (bool, bool, bool){ 
 	isValidName := len(firstName)>=2 && len(lastName)>=2
 	isValidEmail := strings.Contains(email,"@")
 	isValidTicketNumber := userTicket>0 && userTicket<=remainingTickets
@@ -117,7 +119,7 @@ func getUserInput() (string, string, string, uint){
 }
 
 //Function to book ticket
-func bookTicket(firstName string, lastName string, email string, remainingTickets uint, userTicket uint, conferenceName string, bookings []string){
+func bookTicket(firstName string, lastName string, email string, userTicket uint){
 	remainingTickets = remainingTickets-userTicket
 
 	/*  bookings[0] = firstName+" "+lastName
