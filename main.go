@@ -1,6 +1,9 @@
 package main //Give a package name to which this file beongs to
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	//Introducing variable
@@ -17,7 +20,7 @@ func main() {
 	fmt.Printf("We have %v tickets in total and %v tickets are still available!\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your ticket to attend.")
 
-	
+	for{
 	var firstName string //When we don't assign a value to a variable immediately, we need to mention its datatype
 	var lastName string
 	var userTicket uint //uint allows for assigning postive integers only
@@ -43,17 +46,27 @@ func main() {
 	fmt.Printf("Whole array is:%v\n",bookings)
 	fmt.Printf("First element of the array is : %v\n",bookings[0])
 	fmt.Printf("Type of array is %T:\n",bookings)
-	fmt.Printf("Length of the array is: %v\n",len(bookings))  */
+	fmt.Printf("Length of the array is: %v\n",len(bookings))  
+*/
 
 	//Adding elements in slice rather than in array
 	bookings = append(bookings, firstName+" "+lastName)
-	fmt.Printf("Whole slice is:%v\n",bookings)
+
+/*	fmt.Printf("Whole slice is:%v\n",bookings)
 	fmt.Printf("First element of the slice is : %v\n",bookings[0])
 	fmt.Printf("Type of slice is: %T\n",bookings)
-	fmt.Printf("Length of the slice is: %v\n",len(bookings))
-
+	fmt.Printf("Length of the slice is: %v\n",len(bookings))    
+*/
 
 	fmt.Printf("Thank You %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName,lastName, userTicket,email)
 	fmt.Printf("%v tickets remaining for %v\n",remainingTickets,conferenceName)
 
+	firstNames := []string{}							//slice to store only firstname of the customers
+	for _, booking := range bookings{			//We get 'index'(_) and 'value'(booking) while iterating through bookings slice using 'range' iterator
+		var names = strings.Fields(booking)		//'names' is an array that contains 2 values(firstname & lastname) divided on whitespace seperator 
+												//using Fields method
+		firstNames = append(firstNames, names[0])
+	}
+	fmt.Printf("The first name of all bookings are: %v\n",firstNames)
+	}
 }
