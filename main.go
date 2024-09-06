@@ -7,7 +7,9 @@ func main() {
 	var conferenceName string = "Go Conference"
 	const conferenceTickets int = 50
 	var remainingTickets uint = 50	
-	var bookings [50]string									//Equivalent var bookings = [50]string{}
+	//var bookings [50]string									//Equivalent var bookings = [50]string{}
+	var bookings[]string										//This is a slice. It doesn't have a fixed size rather it grows as per neeed
+																//Equ. to writing 'var bookings = []string{}' or 'bookings := []string{}'
 
 
 	fmt.Printf("conferenceTicket is %T, remainingTickets is %T\n", conferenceTickets, remainingTickets)
@@ -37,11 +39,18 @@ func main() {
 
 	remainingTickets = remainingTickets-userTicket
 
-	bookings[0] = firstName+" "+lastName
+/*  bookings[0] = firstName+" "+lastName
 	fmt.Printf("Whole array is:%v\n",bookings)
 	fmt.Printf("First element of the array is : %v\n",bookings[0])
 	fmt.Printf("Type of array is %T:\n",bookings)
-	fmt.Printf("Length of the array is: %v\n",len(bookings))
+	fmt.Printf("Length of the array is: %v\n",len(bookings))  */
+
+	//Adding elements in slice rather than in array
+	bookings = append(bookings, firstName+" "+lastName)
+	fmt.Printf("Whole slice is:%v\n",bookings)
+	fmt.Printf("First element of the slice is : %v\n",bookings[0])
+	fmt.Printf("Type of slice is: %T\n",bookings)
+	fmt.Printf("Length of the slice is: %v\n",len(bookings))
 
 
 	fmt.Printf("Thank You %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName,lastName, userTicket,email)
