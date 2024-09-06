@@ -20,13 +20,11 @@ func main() {
 	fmt.Printf("We have %v tickets in total and %v tickets are still available!\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your ticket to attend.")
 
-	for{
+	for {					//Can mention condition after for loop 'for remainingTickets>0 && len(bookings)<=50'
 	var firstName string //When we don't assign a value to a variable immediately, we need to mention its datatype
 	var lastName string
 	var userTicket uint //uint allows for assigning postive integers only
 	var email string
-
-
 	
 	fmt.Println("Enter your first name: ")
 	fmt.Scan(&firstName)
@@ -40,7 +38,13 @@ func main() {
 	fmt.Println("Enter the number of tickets you want to buy: ")
 	fmt.Scan(&userTicket)
 
-	if userTicket<=remainingTickets{
+
+	//Constraints
+	isValidName := len(firstName)>=2 && len(lastName)>=2
+	isValidEmail := strings.Contains(email,"@")
+	isValidTicketNumber := userTicket>0 && userTicket<=remainingTickets
+
+	if isValidName && isValidEmail && isValidTicketNumber{
 		remainingTickets = remainingTickets-userTicket
 
 	/*  bookings[0] = firstName+" "+lastName
@@ -76,7 +80,16 @@ func main() {
 			break
 		}
 	}else{
-		fmt.Printf("We only have %v tickets remaining. So you can't book %v tickets.\n",remainingTickets,userTicket)
+		if !isValidName{
+			fmt.Println("Firstname or lastname you entered is too short. Try Again!!")
+		}
+		if !isValidEmail{
+			fmt.Println("You entered an invalid email. It doesn't contains @ symbol.")
+		}
+		if !isValidTicketNumber{
+			fmt.Println("Number of tickets you entered is invalid.")
+		}
+		
 	}	
 	
 	}
