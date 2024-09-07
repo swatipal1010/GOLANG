@@ -3,17 +3,17 @@ package main //Give a package name to which this file beongs to
 import (
 	"fmt"
 	"strings"
+	"golong/helper"
 )
 
 
-//Introducing package-level variables
+//Introducing package-level variables(remove these variables from func. call and func. parameter list as they are accessible from here globally)
 var conferenceName string = "Go Conference"
 const conferenceTickets int = 50
 var remainingTickets uint = 50	
 //var bookings [50]string									//Equivalent var bookings = [50]string{}
 var bookings[]string										//This is a slice. It doesn't have a fixed size rather it grows as per neeed
 															//Equ. to writing 'var bookings = []string{}' or 'bookings := []string{}'
-
 
 func main() {
 	greetUsers()
@@ -25,16 +25,13 @@ func main() {
 	fmt.Println("Get your ticket to attend.")
 */
 
-
-
 	for {													//Can mention condition after for loop 'for remainingTickets>0 && len(bookings)<=50'
 	//Get user input
 	firstName, lastName,email, userTicket := getUserInput()
 
-	//Constraints (Multiple values returned by the function validUserInput)
-	isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTicket)
+	//Constraints (Multiple values returned by the function validUserInput) Function present in helper.go(in helper package)
+	isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTicket, remainingTickets)		
 	
-
 	if isValidName && isValidEmail && isValidTicketNumber{
 		//Book user ticket
 		bookTicket(firstName, lastName, email, userTicket)
@@ -84,15 +81,6 @@ func getFirstNames() []string{
 		}
 		//fmt.Printf("The first name of all bookings are: %v\n",firstNames)
 		return firstNames
-}
-
-
-//Function to validate user input. In the below line (bool,bool,bool) is the return type
-func validateUserInput(firstName string, lastName string, email string, userTicket uint) (bool, bool, bool){ 
-	isValidName := len(firstName)>=2 && len(lastName)>=2
-	isValidEmail := strings.Contains(email,"@")
-	isValidTicketNumber := userTicket>0 && userTicket<=remainingTickets
-	return isValidName, isValidEmail, isValidTicketNumber					//Mutiple return values are possible in GOLANG
 }
 
 
