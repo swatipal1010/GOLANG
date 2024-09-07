@@ -44,7 +44,7 @@ func main() {
 			//Book user ticket
 			bookTicket(firstName, lastName, email, userTicket)
 			//Send email ticket to user
-			sendTicket(firstName, lastName, email, userTicket)
+			go sendTicket(firstName, lastName, email, userTicket)		//'go' adds concurrency by starting a goroutine for this func to execute
 
 			//Use the function 'printFirtNames' to print firts names of all bookings
 			firstNames := getFirstNames()
