@@ -2,19 +2,23 @@ package main //Give a package name to which this file beongs to
 
 import (
 	"fmt"
-	"strconv"
 )
 
 // Introducing package-level variables(remove these variables from func. call and func. parameter list as they are accessible from here globally)
 var conferenceName string = "Go Conference"
-
 const conferenceTickets int = 50
-
 var remainingTickets uint = 50
 
 // var bookings [50]string								//Equivalent var bookings = [50]string{}
-var bookings = make([]map[string]string, 0)				//This is a empty slice of map. It doesn't have a fixed size rather it grows as per neeed.
+var bookings = make([]UserData, 0)			//This is a empty slice of UserData struct. It doesn't have a fixed size rather it grows as per neeed.
 														//Equ. to writing 'bookings := []map[string]string{}'
+
+type UserData struct{
+	firstName string
+	lastName string
+	email string
+	numberOfTickets uint
+}
 
 func main() {
 	greetUsers()
@@ -78,7 +82,7 @@ func getFirstNames() []string {
 		//var names = strings.Fields(booking) //'names' is an array that contains 2 values(firstname & lastname) divided on whitespace seperator
 		//using Fields method
 
-		firstNames = append(firstNames, booking["firstName"])		//taking firstname from map
+		firstNames = append(firstNames, booking.firstName)		//taking firstname from UserData struct
 		fmt.Printf("List of bookings %v\n",bookings)
 	}
 	//fmt.Printf("The first name of all bookings are: %v\n",firstNames)
@@ -119,11 +123,12 @@ func bookTicket(firstName string, lastName string, email string, userTicket uint
 	*/
 
 	//Create map to store user data
-	var userData = make(map[string]string) //datatypes of key and value must be same
-	userData["firstname"] = firstName
-	userData["lastname"] = lastName
-	userData["email"] = email
-	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTicket), 10)  //strconv is package containing FormatUint func to convert uint to string
+	var userData = UserData{
+		firstName : firstName,
+		lastName : lastName,
+		email : email,
+		numberOfTickets : userTicket,
+	}
 
 	//Adding elements in slice rather than in array
 	bookings = append(bookings, userData)
